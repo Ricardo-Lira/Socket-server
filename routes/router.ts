@@ -1,6 +1,7 @@
 import { Router, Request, Response } from "express";
 
 import Server from "../class/server";
+import { usuariosConectados } from '../sockets/sockets';
 
 
 
@@ -56,4 +57,40 @@ router.post('/mensajes/:id', (req:Request, res:Response) =>{
         de: de,
         id: id
     })
+
 })
+
+//servicio para obtener todos los Id´s de los usuarios
+
+
+router.get('/usuarios', (req:Request, res:Response) =>{
+    const server = Server.instance;
+    server.io.clients((err:any, clientes:string[])=>{
+        
+        if (err) {
+           return res.json({
+                ok:false,
+                err
+            })
+        }
+
+        res.json({
+            ok:true,
+            clientes
+        });
+    })
+})
+
+//Obtener usuarios y sus datos
+
+router.get('/usuarios/detalles', (req:Request, res:Response) =>{
+
+    res.json({
+        ok:true,
+        clientes:usuariosConectados.getLista()
+    });
+    
+});
+
+
+export default router;

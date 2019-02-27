@@ -32,7 +32,8 @@ export class UsuariosLista{
     //Obtener la lista de usuaros
 
     public getLista(){
-        return this.lista;
+        return this.lista.filter(usuario => usuario.nombre !== 'Desconocido');
+        
     }
 
     public getUsuario(id:string){
